@@ -10,18 +10,11 @@ class Program
         /// Convert the input to a float
         float grade = float.Parse(input);
         /// get letter grade from the GetLetterGrade method
-        string letterGrade = GetLetterGrade(grade);
+        string letter = GetLetterGrade(grade);
         /// get letter sign from the GetLetterSign method
-        string sign = GetLetterSign(grade, letterGrade);
-        if (letterGrade != "F")
-        {
-            string finalgrade = letterGrade + sign;
-            Console.WriteLine($"Your grade is: {finalgrade}");
-        }
-        else
-        {
-            Console.WriteLine($"Your grade is: {letterGrade}");
-        }
+        string sign = GetLetterSign(grade, letter);
+        string finalGrade = letter + sign;
+        Console.WriteLine($"Your grade is: {finalGrade}");
         if (grade >= 70)
         {
             Console.WriteLine("Congratulations! You passed the class!");
@@ -35,28 +28,28 @@ class Program
 
     static string GetLetterGrade(float grade)
     {
-        string letterGrade = "F";
+        string letter;
         if (grade >= 90)
         {
-        letterGrade = "A";
+            letter = "A";
         }
-        if (grade >= 80 && grade < 90)
+        else if (grade >= 80)
         {
-            letterGrade = "B";
+            letter = "B";
         }
-        if (grade >= 70 && grade < 80)
+        else if (grade >= 70)
         {
-            letterGrade = "C";
+            letter = "C";
         }
-        if (grade >= 60 && grade < 70)
+        else if (grade >= 60)
         {
-            letterGrade = "D";
+            letter = "D";
         }
-        if (grade < 60)
+        else
         {
-            letterGrade = "F";
+            letter = "F";
         }
-        return letterGrade;
+        return letter;
     }
     static string GetLetterSign(float grade, string letterGrade)
     {
