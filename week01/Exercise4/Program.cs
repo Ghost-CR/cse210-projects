@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
+using System.Diagnostics.Tracing;
 
 class Program
 {
@@ -20,34 +22,46 @@ class Program
             count++;
             numbers.Add(number);
             Console.WriteLine("Enter number: ");
-            number = int.Parse(Console.ReadLine());
             sum += number;
-        }
-
-        // Calculate the average and find the largest and smallest positive values.
-        int avg = sum / count;
-        int largest = FindLargestNum(numbers);
-        int smallest = FindSmallestPositiveNum(numbers);
-
-        // Display the calculated values.
-        Console.WriteLine($"The sum is: {number}");
-        Console.WriteLine($"The largest number is: {largest}");
-        Console.WriteLine($"The smallest positive number is: {smallest}");
-        Console.WriteLine("The sorted list is:");
-
-        // Sort the numbers in ascending order and print each one.
-        numbers.Sort();
-        foreach (int n in numbers)
-        {
-            Console.WriteLine(n);
+            number = int.Parse(Console.ReadLine());
         }
         
+        if (count > 0)
+        {
+            // Calculate the average and find the largest and smallest positive values.
+            double avg = (double)sum / count;
+            int largest = FindLargestNum(numbers);
+            bool foundPositive = false;
+            int smallest = FindSmallestPositiveNum(numbers, out foundPositive);
+            
+
+            // Display the calculated values.
+            Console.WriteLine($"The sum is: {sum}");
+            Console.WriteLine($"The average is: {avg}");
+            Console.WriteLine($"The largest number is: {largest}");
+            if (foundPositive)
+            {
+                Console.WriteLine($"The smallest positive number is: {smallest}");
+            }
+            else
+            {
+                Console.WriteLine("No positive numbers were entered");
+            }
+            Console.WriteLine("The sorted list is:");
+
+            // Sort the numbers in ascending order and print each one.
+            numbers.Sort();
+            foreach (int n in numbers)
+            {
+                Console.WriteLine(n);
+            }
+        }
     }
 
     // Return the largest number in the list.
     static int FindLargestNum(List<int> numbers)
         {
-            int largest = 0;
+            int largest = numbers[0];
             foreach (int n in numbers)
             {
                 if (n > largest)
@@ -59,14 +73,16 @@ class Program
         }
 
     // Return the smallest positive number in the list.
-    static int FindSmallestPositiveNum(List<int> numbers)
+    static int FindSmallestPositiveNum(List<int> numbers, out bool foundPositive)
     {
-        int smallest = int.MaxValue;
+        int smallest = 0;
+        foundPositive = false;
         foreach (int n in numbers)
         {
-            if (n > 0 && n < smallest)
+            if ((!foundPositive || n < smallest) && n > 0)
             {
                 smallest = n;
+                foundPositive = true;
             }
         }
         return smallest;
