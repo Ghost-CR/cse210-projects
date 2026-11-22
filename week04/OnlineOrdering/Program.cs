@@ -1,17 +1,18 @@
 using System;
-using System;
 using System.Collections.Generic;
 
 class Program
 {
     static void Main(string[] args)
     {
+        // Main creates and groups the orders; each Order coordinates its products and customer.
         List<Order> orders = new List<Order>();
 
         Address address1 = new Address(
             "123 Main Street", "Rexburg", "Idaho", "USA");
         Customer customer1 = new Customer("Ana García", address1);
         Order order1 = new Order(customer1);
+        // AddProduct stores each Product so the order can later price it and print its label.
         order1.AddProduct(new Product("Notebook", 101, 4.50, 2));
         order1.AddProduct(new Product("Pen", 102, 1.25, 3));
         orders.Add(order1);
@@ -33,6 +34,7 @@ class Program
         order3.AddProduct(new Product("Pen", 303, 1.25, 2));
         orders.Add(order3);
 
+        // The display loop delegates calculations and label formatting to each Order object.
         foreach (Order order in orders)
         {
             Console.WriteLine(order.GetPackingLabel());
